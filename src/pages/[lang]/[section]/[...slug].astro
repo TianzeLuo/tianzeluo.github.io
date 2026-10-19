@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import { path, otherLang, entrySlug } from '../../../i18n/utils';
+import { enabledSections } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const sections = (['research','projects','writing'] as const).filter(section => enabledSections.includes(section));
+  const groups = await Promise.all(sections.map(async section => {
+    const entries = await getCollection(section, ({data}) => !data.draft);
+    const seen = new Set<string>();
+    for (const entry of entries) {
+      const key = `${entry.data.lang}:${entry.data.translationKey}`;
+      if (seen.has(key)) throw new Error(`Duplicate translationKey in ${section}: ${key}`);
+      seen.add(key);
+    }
+    return entries.map(entry => {
+      const lang = entry.data.lang;
+      const targetLang = otherLang(lang);
+      const translation = entries.find(e => e.data.translationKey === entry.data.translationKey && e.data.lang === targetLang);
+      const alternate = translation ? path(targetLang,`${section}/${entrySlug(translation)}`) : `${path(targetLang,section)}?untranslated=${encodeURIComponent(entry.data.translationKey)}`;
+      return { params:{ lang, section, slug:entrySlug(entry) }, props:{ entry, section, alternate, translated:!!translation } };
+    });
+  }));
+  return groups.flat();
+}
+const { entry, section, alternate, translated } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+<ArticleLayout {...entry.data} section={section} alternate={alternate} translated={translated} headings={headings}><Content/></ArticleLayout>

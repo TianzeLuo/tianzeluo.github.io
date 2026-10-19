@@ -1,0 +1,55 @@
+---
+translationKey: rl-practice
+lang: en
+title: Deep Reinforcement Learning Practice
+summary: A unified PyTorch training framework for reproducing classic reinforcement learning algorithms across Gymnasium environments.
+status: completed
+updated: 2026-10-19
+tags: [Reinforcement learning, PyTorch, Gymnasium]
+featured: false
+draft: false
+sample: false
+order: 4
+category: Experiment
+role: Lead developer
+stack: [Python, PyTorch, Gymnasium, Matplotlib]
+visual: lab
+links:
+  code: https://github.com/tianzeluo/RL
+---
+
+## Overview
+
+A practice project for understanding deep reinforcement learning algorithms. Every algorithm shares one command-line training framework, so environment interaction, replay, model saving, and training curves do not have to be rewritten each time.
+
+## Motivation
+
+When comparing value-based methods with policy-gradient methods, the biggest source of noise is often the training script and evaluation protocol. Putting algorithms, environments, and hyperparameters behind one entry point makes the differences easier to observe and review.
+
+## Implemented algorithms
+
+- **Tabular methods**: Q-learning, Double Q-learning
+- **Value-based methods**: DQN, Dueling Double DQN, Prioritized DQN with prioritized experience replay
+- **Policy-gradient methods**: REINFORCE (discrete and continuous), PPO (discrete and continuous)
+
+## Training framework
+
+- `main.py` parses `--mode train|demo`, `--agent`, `--env`, episode count, learning rate, batch size, and PPO-specific options in one place.
+- Every algorithm exposes a consistent `choose_action`, `store_experience`, `train`, `save_model`, and `load_model` interface.
+- Training records episode rewards and a moving average, saves models under `models/`, and keeps run configurations and evaluation results under `runs/`.
+- Environment scripts cover CartPole, MountainCar, MountainCarContinuous, Pendulum, Acrobot, and LunarLander, with a few reward wrappers.
+
+## Running it
+
+```bash
+python main.py --mode train --agent DQN --env CartPole-v1 --episodes 300
+python main.py --mode demo --agent DQN --env CartPole-v1 --model_path ./models/DQN_CartPole-v1
+```
+
+## Results and limitations
+
+Training configurations and 10-episode evaluation results are stored under `runs/`, with checkpoints under `models/`. This is a learning project, not a rigorous benchmark: hyperparameters were not tuned systematically, results vary with the random seed, and scores across algorithms are not directly comparable.
+
+## Acknowledgements
+
+The implementations are written for learning and understanding. The training structure is informed by public projects such as XinJingHao/DRL-Pytorch. Third-party code and licenses remain with their original authors.

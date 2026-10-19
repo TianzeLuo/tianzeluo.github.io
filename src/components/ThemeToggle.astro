@@ -1,0 +1,17 @@
+---
+import Icon from './Icon.astro';
+import { ui, type Lang } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+---
+<button class="icon-button theme-toggle" type="button" aria-label={ui[lang].theme} title={ui[lang].theme} aria-pressed="false"><span class="theme-sun"><Icon name="sun" size={18} /></span><span class="theme-moon"><Icon name="moon" size={18} /></span></button>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  const update = () => button?.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'light'));
+  update();
+  button?.addEventListener('click', () => {
+    const theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('portfolio-theme', theme); } catch {}
+    update();
+  });
+</script>

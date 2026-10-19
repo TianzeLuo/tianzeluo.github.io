@@ -1,0 +1,55 @@
+---
+translationKey: rl-practice
+lang: zh
+title: 深度强化学习算法实践
+summary: 用统一的 PyTorch 训练框架复现经典强化学习算法，并在多个 Gymnasium 环境中训练与评估。
+status: completed
+updated: 2026-10-19
+tags: [强化学习, PyTorch, Gymnasium]
+featured: false
+draft: false
+sample: false
+order: 4
+category: Experiment
+role: 主要开发者
+stack: [Python, PyTorch, Gymnasium, Matplotlib]
+visual: lab
+links:
+  code: https://github.com/tianzeluo/RL
+---
+
+## 项目概述
+
+这是一个用于理解深度强化学习算法的实践项目。所有算法共用一套命令行训练框架，不必为每个算法重复编写环境交互、经验回放、模型保存和训练曲线。
+
+## 动机
+
+比较价值函数方法与策略梯度方法时，最大的干扰往往来自不同的训练脚本和评估方式。把算法、环境和超参数放在同一个入口下，差异会更容易被观察和复盘。
+
+## 已实现的算法
+
+- **表格型方法**：Q-learning、Double Q-learning
+- **价值函数方法**：DQN、Dueling Double DQN、Prioritized DQN（含优先经验回放）
+- **策略梯度方法**：REINFORCE（离散 / 连续）、PPO（离散 / 连续）
+
+## 训练框架
+
+- `main.py` 统一解析 `--mode train|demo`、`--agent`、`--env`、回合数、学习率、批大小与 PPO 相关参数。
+- 每个算法提供一致的 `choose_action`、`store_experience`、`train`、`save_model`、`load_model` 接口。
+- 训练过程记录回合奖励与滑动平均，模型保存到 `models/`，运行配置与评估结果保存到 `runs/`。
+- 环境侧为 CartPole、MountainCar、MountainCarContinuous、Pendulum、Acrobot 与 LunarLander 提供实践脚本，并包含部分奖励 wrapper。
+
+## 运行方式
+
+```bash
+python main.py --mode train --agent DQN --env CartPole-v1 --episodes 300
+python main.py --mode demo --agent DQN --env CartPole-v1 --model_path ./models/DQN_CartPole-v1
+```
+
+## 结果与限制
+
+训练配置和 10 回合评估结果保存在 `runs/` 中，模型检查点保存在 `models/`。这是一个学习型项目，不是严格的基准测试：超参数没有系统调优，不同随机种子下结果会有波动，跨算法的分数也不能直接比较。
+
+## 致谢
+
+算法实现用于学习和理解；训练结构参考了 XinJingHao/DRL-Pytorch 等公开实现。第三方代码与许可证归原作者所有。

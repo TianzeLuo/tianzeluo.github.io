@@ -1,0 +1,7 @@
+---
+import { profile } from '../data/profile';
+import { ui, type Lang } from '../i18n/ui';
+import { path } from '../i18n/utils';
+const { lang } = Astro.props as { lang: Lang };
+---
+<footer class="site-footer"><div class="container footer-inner"><div><a class="wordmark small" href={path(lang)}>{profile.initials}<span>.</span></a><span>© {new Date().getFullYear()} {profile.name[lang]}</span></div><p>{ui[lang].built}</p><a href="#top">{lang === 'en' ? 'Back to top' : '回到顶部'} ↑</a></div></footer>

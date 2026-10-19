@@ -1,0 +1,60 @@
+---
+translationKey: dsh-plugins
+lang: en
+title: DSH Plugin Suite
+summary: A collection of plugins that extend DSH with academic search, paper reading, and session workflows.
+status: ongoing
+updated: 2026-10-19
+tags: [DSH, Plugins, JavaScript, Research tools]
+featured: true
+draft: false
+sample: false
+order: 2
+category: Research Tool
+role: Author and maintainer
+stack: [JavaScript, Node.js, DSH Plugin API]
+visual: plugins
+links:
+  code: https://github.com/tianzeluo/dsh-plugins
+---
+
+## Overview
+
+DSH (DeepSeek Harness) is an extensible agent workspace. This collection gathers the plugins I have written for it, covering academic search, paper reading, session sidebars, desktop notifications, and math rendering.
+
+The plugins follow one principle: fill a real gap in the workflow instead of wrapping the model in another layer. When a host seam can solve the problem, it should not cost an extra model turn; capabilities that stay on should be opt-in per project.
+
+## Plugin categories
+
+### Research and reading
+
+- [**dsh-academic-search**](https://github.com/tianzeluo/dsh-academic-search): academic search across arXiv, OpenAlex, Semantic Scholar, and Crossref, with paper identity merging, bounded citation chains, and arXiv handoff.
+- [**dsh-paper-reader**](https://github.com/tianzeluo/dsh-paper-reader): a paper-reading mode that produces reports with page and section anchors and answers follow-up questions from the same parsed source.
+
+### Session and workflow
+
+- [**dsh-btw-sidebar**](https://github.com/tianzeluo/dsh-btw-sidebar): a Codex-style `/btw` that forks the current conversation into the native right sidebar.
+- [**dsh-away-notify**](https://github.com/tianzeluo/dsh-away-notify): desktop notifications for completion, errors, and approval waits, but only when you are away from the page.
+- [**dsh-commandcode-quota**](https://github.com/tianzeluo/dsh-commandcode-quota): Command Code plan quotas and reset countdowns in the session header.
+
+### Rendering
+
+- [**dsh-tex-block-normalizer**](https://github.com/tianzeluo/dsh-tex-block-normalizer): repairs Pandoc-style `$$` math blocks that would otherwise lose their first line or swallow the rest of a message into a KaTeX error.
+
+## Install and use
+
+Published plugins can be installed directly from GitHub, for example:
+
+```bash
+dsh plugin --profile web add github:tianzeluo/dsh-btw-sidebar
+```
+
+Restart `dsh web` and refresh the page afterwards. Version and profile requirements for each plugin are documented in its own README.
+
+## My role
+
+I am the author and maintainer of these plugins, responsible for scoping the problem, choosing the host seam, implementation, installation scripts, and cross-platform verification. All six plugins are now public in their own repositories; this collection repository maintains the index and status.
+
+## Status
+
+The collection is actively maintained. New plugins are verified in their own repositories before they are added to the index.

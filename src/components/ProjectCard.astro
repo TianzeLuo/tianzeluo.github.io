@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { ui, type Lang } from '../i18n/ui';
+import { path, entrySlug } from '../i18n/utils';
+import ProjectVisual from './ProjectVisual.astro';
+import Icon from './Icon.astro';
+const { entry, lang } = Astro.props as { entry: CollectionEntry<'projects'>; lang: Lang };
+const d = entry.data;
+const categories = { 'Research Tool': '研究工具', 'Open Source': '开源项目', 'Experiment': '实验探索' };
+---
+<a class="project-card" href={path(lang, `projects/${entrySlug(entry)}`)} data-category={d.category}>
+  <ProjectVisual variant={d.visual}/>
+  <div class="project-card-body"><div class="card-meta"><span>{lang === 'zh' ? categories[d.category] : d.category}</span><span>{d.sample ? ui[lang].demo : ui[lang][d.status]}</span></div><h3>{d.title}<Icon name="arrow" size={19}/></h3><p>{d.summary}</p><div class="tags">{d.stack.slice(0,3).map(tag => <span>{tag}</span>)}</div></div>
+</a>

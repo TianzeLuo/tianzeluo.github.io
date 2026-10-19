@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import SampleNotice from '../../../components/SampleNotice.astro';
+import { languages, ui, type Lang } from '../../../i18n/ui';
+import { path, otherLang } from '../../../i18n/utils';
+export const getStaticPaths = () => languages.map(lang => ({ params: { lang } }));
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const entries = (await getCollection('projects', ({data}) => data.lang === lang && !data.draft)).sort((a,b) => a.data.order - b.data.order);
+const categories = [{key:'all',label:t.all},{key:'Research Tool',label:lang==='en'?'Research tools':'研究工具'},{key:'Open Source',label:lang==='en'?'Open source':'开源项目'},{key:'Experiment',label:lang==='en'?'Experiments':'实验探索'}];
+---
+<BaseLayout lang={lang} title={t.projects} description={t.projectsIntro} active="projects" alternate={path(otherLang(lang),'projects')}>
+  <div class="container listing-main"><header class="page-heading"><span class="eyebrow">Projects / {String(entries.length).padStart(2,'0')}</span><h1>{t.projectsTitle}</h1><p>{t.projectsIntro}</p></header>
+    {entries.some(e => e.data.sample) && <SampleNotice lang={lang}/>}
+    <div class="filter-bar" role="group" aria-label={lang === 'en' ? 'Filter projects' : '筛选项目'}>{categories.map((c,i) => <button class="filter-button" type="button" data-filter={c.key} aria-pressed={i===0}>{c.label}</button>)}</div>
+    <div class="project-grid" id="project-list">{entries.map(entry => <ProjectCard entry={entry} lang={lang}/>)}</div><p class="filter-empty" role="status" hidden>{t.empty}</p>
+  </div>
+</BaseLayout>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+  buttons.forEach(button => button.addEventListener('click', () => {
+    buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    let count = 0;
+    cards.forEach(card => { card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter; if (!card.hidden) count++; });
+    const empty = document.querySelector<HTMLElement>('.filter-empty'); if (empty) empty.hidden = count > 0;
+  }));
+</script>

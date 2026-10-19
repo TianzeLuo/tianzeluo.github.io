@@ -1,0 +1,47 @@
+---
+translationKey: omni-studio
+lang: zh
+title: OmniStudio
+summary: 把 Markdown 笔记、代码编辑、AI 助手与在线评测整合到一个窗口的桌面工作台。
+status: completed
+updated: 2026-10-19
+tags: [C++, Qt 6, 桌面应用, AI 助手]
+featured: true
+draft: false
+sample: false
+order: 1
+category: Open Source
+role: 主要开发者
+stack: [C++17, Qt 6, CMake, Python]
+visual: studio
+links:
+  code: https://github.com/tianzeluo/Omni-Studio
+---
+
+## 项目概述
+
+OmniStudio 是一款跨平台桌面工作台，把 Markdown 笔记、代码编辑、AI 辅助与在线评测放进同一个窗口。它面向北京大学程序设计课程的学习场景：写题解、写代码、提交 OJ、向 AI 追问错因，不必在四个应用之间来回切换。
+
+## 解决的问题
+
+课程练习常常分散在笔记软件、IDE、OJ 网页和 AI 聊天窗口之间。OmniStudio 把这些步骤收进一个可保存、可回溯的工作区，让“想清楚—写出来—跑起来—改正确”发生在同一个地方。
+
+## 主要功能
+
+- **SMD 笔记本**：受 Jupyter 启发的单元格编辑器，一个文件里可以混合 Markdown、C++ 和 Python 单元格。
+- **代码编辑与运行**：C++ 单元格按 `main()` 自动分组编译，Python 单元格保留跨单元格的命名空间。
+- **OpenJudge 集成**：浏览题目、管理登录凭据、提交代码，并读取评测结果。
+- **AI 助手**：结合当前编辑器内容进行多轮对话，辅助分析错误用例与运行时错误。
+- **错题记录**：保存失败用例，方便之后复盘。
+
+## 技术实现
+
+项目使用 C++17 与 Qt 6 构建原生跨平台界面，以 CMake 组织构建流程，并为 C++、Python 单元格分别提供执行后端。AI 助手通过模型接口接入；OpenJudge 集成封装了登录、题目与提交接口。
+
+## 我的工作
+
+我是项目的主要开发者，负责桌面端架构、SMD 笔记本与编辑器、OpenJudge 集成以及 AI 助手交互。项目以 GPL-3.0 协议开源。
+
+## 状态
+
+课程阶段的开发已经完成，仓库保留了 Windows、macOS 与 Linux 的构建流程。

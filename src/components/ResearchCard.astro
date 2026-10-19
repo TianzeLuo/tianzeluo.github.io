@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { Lang } from '../i18n/ui';
+import { ui } from '../i18n/ui';
+import { path, entrySlug } from '../i18n/utils';
+import Icon from './Icon.astro';
+import ResearchVisual from './ResearchVisual.astro';
+const { entry, lang } = Astro.props as { entry: CollectionEntry<'research'>; lang: Lang };
+const d = entry.data;
+---
+<a class="research-card" href={path(lang, `research/${entrySlug(entry)}`)}>
+  <ResearchVisual variant={d.visual}/>
+  <div class="research-card-body"><div class="card-meta"><span>{d.tags[0]}</span><span class="status"><i></i>{d.sample ? ui[lang].demo : ui[lang][d.status]}</span></div><h3>{d.title}<Icon name="arrow" size={21}/></h3><p>{d.summary}</p><div class="tags">{d.tags.slice(1).map(tag => <span>{tag}</span>)}</div></div>
+</a>

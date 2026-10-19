@@ -1,0 +1,59 @@
+---
+translationKey: latent-diffusability
+lang: en
+title: Visual representations for diffusion
+summary: How do the properties of a visual tokenizer shape what a generative model can learn?
+question: What makes a visual representation easier for a diffusion model to learn?
+status: ongoing
+updated: 2026-10-19
+tags: [Representation Learning, Diffusion, VAE, Visual Tokenizer]
+featured: true
+draft: true
+sample: true
+order: 1
+visual: latent
+links: {}
+---
+
+## Overview
+
+Visual tokenizers compress images into a representation that a generative model can learn. A useful research question is whether good reconstruction alone tells us enough about that representation.
+
+This page is an **illustrative research brief**. It demonstrates how a research question, method, and evidence could be presented. No experiments or findings are claimed here.
+
+## Background
+
+A latent diffusion pipeline has two distinct stages: an autoencoder maps an image into a latent space, and a generative model learns a distribution in that space. Qualities that help the first stage may not fully describe the difficulty of the second.
+
+For an encoder $E$ and decoder $D$, the reconstruction path is
+
+$$
+x \xrightarrow{E} z \xrightarrow{D} \hat{x}.
+$$
+
+Reconstruction measures information recovered through $D$. Generative evaluation asks a separate question about samples from the learned distribution. A future study would need to keep these evaluations distinct.
+
+## Approach
+
+A possible investigation would compare representations under a fixed downstream training protocol:
+
+1. Specify the dataset, tokenizer, model, and compute budget.
+2. Measure reconstruction and representation properties separately.
+3. Train comparable generative models under the same protocol.
+4. Examine which representation properties track downstream behavior.
+
+## Experiments
+
+No public experiment results have been added. This section is reserved for reproducible settings, baselines, and directly supported observations.
+
+## Findings and open questions
+
+- Which properties matter beyond reconstruction fidelity?
+- How should representation comparisons control for scale and coordinates?
+- Which observations hold across model and data choices?
+
+These are open questions in this sample brief, not established findings.
+
+## Resources
+
+Public code, reports, and references can be added to this entry’s metadata when available.

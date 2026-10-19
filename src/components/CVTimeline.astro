@@ -1,0 +1,4 @@
+---
+const { entries } = Astro.props as { entries: { period: string; title: string; description: string }[] };
+---
+{entries.map(entry => <div class="timeline-item"><time>{entry.period}</time><div><h3>{entry.title}</h3><p>{entry.description}</p></div></div>)}

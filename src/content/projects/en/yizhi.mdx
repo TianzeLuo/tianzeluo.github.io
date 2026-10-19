@@ -1,0 +1,52 @@
+---
+translationKey: yizhi
+lang: en
+title: Yizhi · Personal Knowledge Workbench
+summary: A local-first knowledge workbench with incremental indexing, retrieval, and cited Q&A.
+status: completed
+updated: 2026-10-19
+tags: [RAG, Local-first, Knowledge base, Docker]
+featured: true
+draft: false
+sample: false
+order: 3
+category: Open Source
+role: Lead developer
+stack: [Python, FastAPI, React, PostgreSQL, Redis, Docker]
+visual: reader
+links:
+  code: https://github.com/tianzeluo/yizhi-workbench
+---
+
+## Overview
+
+Yizhi is a local-first personal knowledge workbench. After documents are uploaded, the system parses, incrementally indexes, and publishes them. You can then use that knowledge through cited Q&A, Assistant conversations, and Skill workflows.
+
+The point is not to let a model read a pile of files. It is to make every answer traceable to a fixed source version and a location in the original text.
+
+## The problem
+
+Personal material is scattered across PDFs, slides, notes, and web pages. Ordinary retrieval can return a similar paragraph, but it rarely says which version of a document it came from or where the passage sits. Yizhi stores the source version, location, and citation identity together, then shows citations, limitations, and the original snippet in each answer.
+
+## What it does
+
+- **Data sources**: upload documents, then parse, index, and publish them while keeping source versions and locations.
+- **Knowledge Q&A**: answer from the published documents in the current Space, with citations, limitations, and clickable source locations.
+- **Assistant conversations**: keep sessions, run records, and citations, and choose the right Skill or knowledge tool for a request.
+- **Personal Skills**: create Skills through draft, validation, evaluation, and approval; built-in Skills cannot be overridden.
+- **Long-term memory**: extract facts, preferences, and working patterns from conversations and retrieve them when relevant.
+- **Local agent workspace**: read, write, or run commands under path containment, protected paths, and an approval policy.
+
+## How it is built
+
+The backend uses Python and FastAPI, and the frontend uses React and TypeScript. PostgreSQL stores data, versions, and indexes; Redis carries the background task queue; embedding and reranker models run as separate services. The whole system starts with Docker Compose.
+
+The default fake provider returns deterministic extractive answers so the full flow can be tested before any external model is configured. Source manifests, SHA-256 checks, path containment, and approval policies define the data boundary.
+
+## My role
+
+I am the lead developer, responsible for the overall architecture and core implementation, including document ingestion and indexing, the cited Q&A flow, the Assistant and Skill mechanisms, and Docker deployment.
+
+## Status
+
+The project is complete and open source under GPL-3.0. Full setup and configuration instructions are in the repository README.

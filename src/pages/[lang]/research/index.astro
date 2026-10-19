@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ResearchCard from '../../../components/ResearchCard.astro';
+import SampleNotice from '../../../components/SampleNotice.astro';
+import { languages, ui, type Lang } from '../../../i18n/ui';
+import { path, otherLang } from '../../../i18n/utils';
+import { isSectionEnabled } from '../../../data/site';
+export const getStaticPaths = () => isSectionEnabled('research') ? languages.map(lang => ({ params: { lang } })) : [];
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const entries = (await getCollection('research', ({data}) => data.lang === lang && !data.draft)).sort((a,b) => a.data.order - b.data.order);
+---
+<BaseLayout lang={lang} title={t.research} description={t.researchIntro} active="research" alternate={path(otherLang(lang),'research')}>
+  <div class="container listing-main"><header class="page-heading"><span class="eyebrow">Research / {String(entries.length).padStart(2,'0')}</span><h1>{t.researchTitle}</h1><p>{t.researchIntro}</p></header>
+    {entries.some(e => e.data.sample) && <SampleNotice lang={lang}/>}
+    <div class="research-grid">{entries.map(entry => <ResearchCard entry={entry} lang={lang}/>)}</div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,31 @@
+---
+interface Props { variant?: 'latent' | 'geometry'; large?: boolean; }
+const { variant = 'latent', large = false } = Astro.props;
+const points = Array.from({ length: 140 }, (_, i) => {
+  const a = i * 2.39996;
+  const radius = Math.sqrt(i / 140);
+  const x = 200 + Math.cos(a) * radius * 133;
+  const y = 145 + Math.sin(a) * radius * 74 + Math.sin(x / 46) * 23;
+  return { x, y, opacity: 0.2 + (i % 7) / 10, r: 1.1 + (i % 3) * 0.45 };
+});
+---
+<div class:list={['research-visual', variant, { large }]} aria-hidden="true">
+<svg viewBox="0 0 400 285" fill="none">
+  <g class="diagram-grid" stroke="currentColor" stroke-width=".5">{[60, 100, 140, 180, 220].map(y => <path d={`M30 ${y}H370`}/>)}{[70, 120, 170, 220, 270, 320].map(x => <path d={`M${x} 30V250`}/>)}</g>
+  {variant === 'latent' ? <>
+    <ellipse cx="200" cy="145" rx="139" ry="85" transform="rotate(-18 200 145)" stroke="currentColor" opacity=".23"/>
+    <ellipse cx="200" cy="145" rx="111" ry="66" transform="rotate(-18 200 145)" stroke="currentColor" opacity=".15"/>
+    <g fill="currentColor">{points.map(p => <circle cx={p.x} cy={p.y} r={p.r} opacity={p.opacity}/>)}</g>
+    <path d="M84 173c46 8 45-76 93-57s50 82 81 38 41-50 64-43" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="177" cy="116" r="5" fill="var(--bg)" stroke="currentColor" stroke-width="2"/>
+    <circle cx="258" cy="154" r="5" fill="var(--bg)" stroke="currentColor" stroke-width="2"/>
+    <path d="m315 105 9 5-6 8" stroke="currentColor" stroke-width="1.8"/>
+    <text x="37" y="266">LATENT SPACE</text><text x="295" y="266">z ~ p(z)</text>
+  </> : <>
+    {Array.from({length: 10}, (_, i) => <path d={`M40 ${65+i*15} C130 ${-20+i*28}, 240 ${270-i*19}, 360 ${65+i*15}`} stroke="currentColor" opacity={.15 + i * .055}/>)}
+    {Array.from({length: 11}, (_, i) => <path d={`M${50+i*29} 60 Q${10+i*35} 145 ${50+i*29} 220`} stroke="currentColor" opacity=".2"/>)}
+    <circle cx="151" cy="140" r="5" fill="var(--bg)" stroke="currentColor" stroke-width="2"/><circle cx="277" cy="149" r="5" fill="var(--bg)" stroke="currentColor" stroke-width="2"/>
+    <text x="37" y="266">REPRESENTATION GEOMETRY</text><text x="320" y="266">g(z)</text>
+  </>}
+</svg>
+</div>

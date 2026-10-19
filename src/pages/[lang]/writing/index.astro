@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Icon from '../../../components/Icon.astro';
+import { languages, ui, type Lang } from '../../../i18n/ui';
+import { path, otherLang, entrySlug } from '../../../i18n/utils';
+import { isSectionEnabled } from '../../../data/site';
+export const getStaticPaths = () => isSectionEnabled('writing') ? languages.map(lang => ({ params: { lang } })) : [];
+const lang = Astro.params.lang as Lang;
+const t = ui[lang];
+const entries = (await getCollection('writing', ({data}) => !data.draft)).sort((a,b) => b.data.updated.getTime() - a.data.updated.getTime());
+const local = entries.filter(e => e.data.lang === lang);
+const other = entries.filter(e => e.data.lang !== lang && !local.some(l => l.data.translationKey === e.data.translationKey));
+---
+<BaseLayout lang={lang} title={t.writing} description={t.writingIntro} active="writing" alternate={path(otherLang(lang),'writing')}>
+  <div class="container listing-main"><header class="page-heading"><span class="eyebrow">Writing & notes</span><h1>{t.writingTitle}</h1><p>{t.writingIntro}</p></header>
+    <aside class="translation-notice" id="translation-notice" hidden>{t.untranslated}</aside>
+    <div class="note-list">{[...local,...other].map(entry => <a class="note-row" href={path(entry.data.lang,`writing/${entrySlug(entry)}`)}><time datetime={entry.data.updated.toISOString()}>{entry.data.updated.toISOString().slice(0,10)}</time><div><span class="note-language">{entry.data.lang === 'en' ? 'ENGLISH' : '中文'}{entry.data.sample ? ` · ${t.demo}` : ''}</span><h2>{entry.data.title}</h2><p>{entry.data.summary}</p></div><Icon name="arrow"/></a>)}</div>
+  </div>
+</BaseLayout>
+<script>
+  if (new URLSearchParams(location.search).has('untranslated')) { const notice = document.querySelector<HTMLElement>('#translation-notice'); if (notice) notice.hidden = false; }
+</script>

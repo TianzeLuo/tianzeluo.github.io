@@ -1,0 +1,47 @@
+---
+translationKey: omni-studio
+lang: en
+title: OmniStudio
+summary: A desktop workspace that brings Markdown notes, code editing, AI assistance, and online judging into one window.
+status: completed
+updated: 2026-10-19
+tags: [C++, Qt 6, Desktop, AI assistant]
+featured: true
+draft: false
+sample: false
+order: 1
+category: Open Source
+role: Lead developer
+stack: [C++17, Qt 6, CMake, Python]
+visual: studio
+links:
+  code: https://github.com/tianzeluo/Omni-Studio
+---
+
+## Overview
+
+OmniStudio is a cross-platform desktop workspace that brings Markdown notes, code editing, AI assistance, and online judging into one window. It is built around the workflow of Peking University programming courses: write a solution, run it, submit it to the judge, and ask follow-up questions without switching between four different apps.
+
+## The problem
+
+Coursework is usually split across a notes app, an IDE, an OJ website, and an AI chat window. OmniStudio keeps those steps in one persistent workspace, so thinking, writing, running, and debugging happen in the same place.
+
+## What it does
+
+- **SMD notebooks**: a cell-based editor inspired by Jupyter, mixing Markdown, C++, and Python cells in one file.
+- **Edit and run**: C++ cells are compiled in groups around `main()`; Python cells keep a persistent namespace across cells.
+- **OpenJudge integration**: browse problems, manage credentials, submit code, and read judge results.
+- **AI assistant**: multi-turn conversations grounded in the current editor content, with help analyzing failed cases and runtime errors.
+- **Mistake log**: saves failed cases for later review.
+
+## How it is built
+
+The app uses C++17 and Qt 6 for a native cross-platform interface, with CMake for the build. C++ and Python cells have separate execution backends. The AI assistant connects through a model interface, and the OpenJudge integration wraps the login, problem, and submission endpoints.
+
+## My role
+
+I am the lead developer, responsible for the desktop architecture, the SMD notebook and editor, OpenJudge integration, and the AI assistant experience. The project is open source under GPL-3.0.
+
+## Status
+
+Course-stage development is complete, and the repository keeps build workflows for Windows, macOS, and Linux.

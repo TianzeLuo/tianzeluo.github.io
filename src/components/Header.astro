@@ -1,0 +1,41 @@
+---
+import { profile } from '../data/profile';
+import { isSectionEnabled, type Section } from '../data/site';
+import { ui, type Lang } from '../i18n/ui';
+import { path, otherLang } from '../i18n/utils';
+import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+const { lang, active = 'home', alternate } = Astro.props as { lang: Lang; active?: string; alternate?: string };
+const t = ui[lang];
+const nav = (['home', 'research', 'projects', 'writing', 'cv'] as const)
+  .filter(key => key === 'home' || key === 'cv' || isSectionEnabled(key as Section));
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href={path(lang)} aria-label={`${profile.name[lang]} — ${t.home}`}>{profile.initials}<span>.</span></a>
+    <nav id="main-navigation" aria-label={lang === 'en' ? 'Main navigation' : '主导航'}>
+      {nav.map(key => <a href={path(lang, key === 'home' ? '' : key)} aria-current={active === key ? 'page' : undefined}>{t[key]}</a>)}
+    </nav>
+    <div class="header-actions">
+      <a class="language-switch" href={alternate || path(otherLang(lang), active === 'home' ? '' : active)} lang={otherLang(lang)} aria-label={lang === 'en' ? '切换至中文' : 'Switch to English'}><Icon name="globe" size={15}/><span>{lang === 'en' ? '中文' : 'EN'}</span></a>
+      <span class="action-divider"></span><ThemeToggle lang={lang}/>
+      <button class="icon-button menu-button" type="button" aria-label={t.menu} aria-expanded="false" aria-controls="main-navigation"><Icon name="menu"/></button>
+    </div>
+  </div>
+</header>
+<script>
+  document.querySelector('.menu-button')?.addEventListener('click', (event) => {
+    const button = event.currentTarget as HTMLButtonElement;
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(open));
+    document.querySelector('.site-header')?.classList.toggle('menu-open', open);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.querySelector('.site-header.menu-open')) {
+      document.querySelector('.site-header')?.classList.remove('menu-open');
+      const button = document.querySelector<HTMLButtonElement>('.menu-button');
+      button?.setAttribute('aria-expanded','false');
+      button?.focus();
+    }
+  });
+</script>

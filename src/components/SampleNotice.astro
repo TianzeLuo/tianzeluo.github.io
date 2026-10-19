@@ -1,0 +1,5 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+const { lang, compact = false } = Astro.props as { lang: Lang; compact?: boolean };
+---
+<aside class:list={['sample-notice', { compact }]}><span class="notice-symbol">i</span><div>{compact ? <p>{ui[lang].draftNotice}</p> : <><strong>{ui[lang].sampleTitle}</strong><p>{ui[lang].sampleText}</p></>}</div></aside>

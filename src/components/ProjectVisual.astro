@@ -1,0 +1,20 @@
+---
+interface Props { variant?: 'agent' | 'reader' | 'lab' | 'studio' | 'plugins'; }
+const { variant = 'agent' } = Astro.props;
+const labels = {
+  agent: 'agent / workflow',
+  reader: 'reader / sources',
+  lab: 'experiment / workspace',
+  studio: 'studio / workspace',
+  plugins: 'plugins / toolkit'
+};
+const pluginNames = ['search', 'reader', 'fetch', 'notify', '/btw', 'math'];
+---
+<div class:list={['project-visual', variant]} aria-hidden="true">
+  <div class="terminal-chrome"><span></span><span></span><span></span><span class="terminal-name">{labels[variant]}</span></div>
+  {variant === 'agent' ? <div class="workflow"><div class="workflow-node"><span>01</span>Question</div><div class="workflow-connector">→</div><div class="workflow-node"><span>02</span>Experiment</div><div class="workflow-connector">→</div><div class="workflow-node"><span>03</span>Evidence</div><div class="workflow-bottom"><span class="status-dot"></span> observe · evaluate · refine <span>↵</span></div></div>
+  : variant === 'reader' ? <div class="reader-preview"><div class="paper-preview"><i></i><i></i><i></i><i></i><i></i></div><div class="reader-lines"><code><span>source</span> paper.pdf</code><code><span>anchor</span> page / section</code><code><span>output</span> linked notes</code><div class="reader-progress"></div></div></div>
+  : variant === 'studio' ? <div class="studio-preview"><div class="studio-sidebar"><span></span><span></span><span></span><span></span></div><div class="studio-code"><code><span>01</span>#include &lt;iostream&gt;</code><code><span>02</span>int main()</code><code><span>03</span>  solve();</code><code><span>04</span>  return 0;</code><code><span>05</span>&rbrace;</code></div><div class="studio-assistant"><b>AI</b><span>failed case</span><span>runtime error</span><span>explain →</span></div></div>
+  : variant === 'plugins' ? <div class="plugins-preview">{pluginNames.map((name, i) => <div class="plugin-tile"><span>0{i + 1}</span>{name}</div>)}</div>
+  : <div class="lab-preview"><code><span>$</span> run experiment --config baseline</code><div class="lab-bars">{[42,65,52,80,72,91,85,100,95,108,101,117].map(h => <span style={`height:${h / 1.9}px`}></span>)}</div><span class="lab-caption">CONFIG → RUN → COMPARE</span></div>}
+</div>

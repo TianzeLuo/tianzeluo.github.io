@@ -1,0 +1,28 @@
+{
+  "name": "personal-research-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "check": "astro check",
+    "build": "astro build",
+    "build:cv": "node scripts/build-cv-pdf.mjs",
+    "preview": "astro preview --host 127.0.0.1",
+    "verify": "node scripts/verify-build.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.16.0",
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/sitemap": "^3.6.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "remark-math": "^6.0.0",
+    "rehype-katex": "^7.0.0",
+    "katex": "^0.16.22"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.9.0"
+  }
+}

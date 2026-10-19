@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CVTimeline from '../../components/CVTimeline.astro';
+import SampleNotice from '../../components/SampleNotice.astro';
+import Icon from '../../components/Icon.astro';
+import { languages, ui, type Lang } from '../../i18n/ui';
+import { path, otherLang, asset } from '../../i18n/utils';
+import { profile } from '../../data/profile';
+import { cv } from '../../data/cv';
+export const getStaticPaths = () => languages.map(lang => ({ params: { lang } }));
+const lang = Astro.params.lang as Lang;
+const t = ui[lang], data = cv[lang];
+---
+<BaseLayout lang={lang} title={t.cv} description={t.cvIntro} active="cv" alternate={path(otherLang(lang),'cv')}>
+  <div class="container"><header class="page-heading"><span class="eyebrow">{lang === 'en' ? 'Background · Projects · Awards' : '背景 · 项目 · 获奖'}</span><h1>{t.cvTitle}</h1><p>{t.cvIntro}</p>{profile.isPlaceholder && <SampleNotice lang={lang} compact/>}</header>
+    <div class="cv-layout"><aside class="cv-summary"><h2>{profile.name[lang]}</h2><p class="cv-role">{profile.role[lang]}</p><p class="cv-intro">{data.introduction}</p><div class="cv-links">{profile.email && <a class="text-link" href={`mailto:${profile.email}`}>{profile.email}</a>}{profile.github && <a class="text-link" href={profile.github} rel="noopener noreferrer" target="_blank">GitHub<Icon name="arrow" size={13}/></a>}</div><a class="button primary" href={asset(lang === 'en' ? 'cv-en.pdf' : 'cv-zh.pdf')} download={`Tianze-Luo-CV-${lang}.pdf`}><Icon name="download" size={16}/>{t.savePdf}</a><p class="print-hint">{t.printHint}</p><a class="text-link" href={asset(otherLang(lang) === 'en' ? 'cv-en.pdf' : 'cv-zh.pdf')} download={`Tianze-Luo-CV-${otherLang(lang)}.pdf`}>{t.otherPdf}<Icon name="arrow" size={14}/></a></aside>
+    <div>
+      <section class="cv-section"><h2>{profile.isPlaceholder ? t.researchAreas : t.interests}</h2><div class="cv-interests">{data.interests.map(interest => <span>{interest}</span>)}</div></section>
+      {(['education','experience'] as const).map(section => <section class="cv-section"><h2>{t[section]}</h2>{data[section].length ? <CVTimeline entries={data[section]}/> : <p class="cv-empty"><strong>{t.unfilled}</strong><span class="no-print">{t.cvEmpty}</span></p>}</section>)}
+      <section class="cv-section"><h2>{t.awards}</h2>{data.awards.length ? <CVTimeline entries={data.awards}/> : <p class="cv-empty"><strong>{t.unfilled}</strong><span class="no-print">{t.cvEmpty}</span></p>}</section>
+      <section class="cv-section"><h2>{t.skills}</h2>{data.skills.length ? data.skills.map(skill => <div class="timeline-item"><h3>{skill.title}</h3><p>{skill.description}</p></div>) : <p class="cv-empty"><strong>{t.unfilled}</strong><span class="no-print">{t.cvEmpty}</span></p>}</section>
+    </div></div>
+  </div>
+</BaseLayout>

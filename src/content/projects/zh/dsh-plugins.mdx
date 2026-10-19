@@ -1,0 +1,60 @@
+---
+translationKey: dsh-plugins
+lang: zh
+title: DSH 插件合集
+summary: 一组扩展 DSH 的学术检索、论文阅读与会话工作流插件。
+status: ongoing
+updated: 2026-10-19
+tags: [DSH, 插件, JavaScript, 研究工具]
+featured: true
+draft: false
+sample: false
+order: 2
+category: Research Tool
+role: 作者与维护者
+stack: [JavaScript, Node.js, DSH Plugin API]
+visual: plugins
+links:
+  code: https://github.com/tianzeluo/dsh-plugins
+---
+
+## 项目概述
+
+DSH（DeepSeek Harness）是一个可扩展的智能体工作环境。这个合集把我为它写的插件整理在一起，覆盖学术检索、论文阅读、会话侧栏、桌面通知和数学公式渲染。
+
+插件都围绕同一条原则：补上真实工作流里的缺口，而不是把模型再包一层。能在宿主接缝上解决的问题，就不额外消耗模型回合；需要长期开启的能力，尽量做成按项目开启。
+
+## 插件分类
+
+### 研究与阅读
+
+- [**dsh-academic-search**](https://github.com/tianzeluo/dsh-academic-search)：跨 arXiv、OpenAlex、Semantic Scholar 和 Crossref 的学术检索，支持论文身份归并、有界引用链与 arXiv 原文交接。
+- [**dsh-paper-reader**](https://github.com/tianzeluo/dsh-paper-reader)：论文解读模式，生成带页码与章节锚点的解读报告，并基于同一份解析产物回答追问。
+
+### 会话与工作流
+
+- [**dsh-btw-sidebar**](https://github.com/tianzeluo/dsh-btw-sidebar)：Codex 风格的 `/btw`，把当前会话分叉到原生右侧栏继续聊。
+- [**dsh-away-notify**](https://github.com/tianzeluo/dsh-away-notify)：只有当你不在页面上时，才为完成、出错、等待审批等事件弹桌面通知。
+- [**dsh-commandcode-quota**](https://github.com/tianzeluo/dsh-commandcode-quota)：在会话页头查看 Command Code 套餐的 5 小时 / 每周 / 月度额度与重置倒计时。
+
+### 渲染
+
+- [**dsh-tex-block-normalizer**](https://github.com/tianzeluo/dsh-tex-block-normalizer)：修复 Pandoc 风格 `$$` 公式块被误解析的问题，避免公式首行丢失或整段变成 KaTeX 报错。
+
+## 安装与使用
+
+已开源的插件可以直接从 GitHub 安装，例如：
+
+```bash
+dsh plugin --profile web add github:tianzeluo/dsh-btw-sidebar
+```
+
+安装后重启 `dsh web` 并刷新页面。不同插件对 DSH 版本和 profile 的要求写在各自的 README 中。
+
+## 我的工作
+
+我是这些插件的作者与维护者，负责需求拆解、宿主接缝选择、插件实现、安装脚本与跨平台验证。这 6 个插件均已开源，源码在各自的仓库中；这个合集仓库维护索引与状态。
+
+## 状态
+
+合集持续更新。新的插件会先在自己的仓库里验证，再收进合集索引。
