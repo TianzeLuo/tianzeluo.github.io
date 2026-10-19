@@ -2,6 +2,8 @@
 
 Personal website of Tianze Luo, featuring selected projects, a CV, and open-source work.
 
+**Live site:** https://tianzeluo.github.io/
+
 The site is statically generated with **Astro 5**, **MDX**, and **Tailwind CSS 4**. It is bilingual (English / 中文), defaults to dark mode, and includes downloadable one-page CV PDFs.
 
 ## Pages
